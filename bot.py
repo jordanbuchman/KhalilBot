@@ -87,4 +87,4 @@ async def snof(ctx, text=None):
     await vc.disconnect()
 
 
-bot.run(os.genenv('DISCORD_KEY'))
+bot.run(os.getenv('DISCORD_KEY'))
