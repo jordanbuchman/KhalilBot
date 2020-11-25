@@ -3,8 +3,8 @@ import io
 import tempfile
 
 
-def add_text(text):
-    im = Image.open('images/breakingbad.gif')
+def add_text(text, img_file='images/breakingbad.gif'):
+    im = Image.open(img_file)
 
     frames = []
     durations = []
