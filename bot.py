@@ -235,7 +235,7 @@ async def tlaw(ctx, *, text: commands.clean_content=None):
             await ctx.send(file=discord.File(img))
     else:
         await ctx.send(file=discord.File(
-            bb.add_text(text, img_file='mages/breakingbad_reversed.gif'), filename="walt.gif"))
+            bb.add_text(text, img_file='images/breakingbad_reversed.gif'), filename="walt.gif"))
 
 
 @bot.command()
