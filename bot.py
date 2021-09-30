@@ -169,7 +169,7 @@ async def leaderboard(ctx):
     leader_names = []
     leaders_final = []
     for leader in leaders:
-        leaders_final.append('#{}: {} - {} KhalilCoin™'.format(leader[0], (await bot.fetch_user(int(leader[1][0]))).name, leader[1][1].balance))
+        leaders_final.append('#{}: {} - {:.2f} KhalilCoin™'.format(leader[0], (await bot.fetch_user(int(leader[1][0]))).name, leader[1][1].balance))
 
     await ctx.send('\n'.join(leaders_final))
 
