@@ -121,6 +121,7 @@ def command_cost(p, name):
 
 @bot.command()
 async def mine(ctx):
+
     # buttons = [(6, "6️⃣"), (9, "9️⃣"), (1, "1️⃣"), (4, "4️⃣")]
     # buttons = [(i, random_emoji()[0]) for i in [6,9,1,4]]
     buttons = list(zip([6, 9, 1, 4], random.sample(bot.emojis, 4)))
@@ -159,6 +160,18 @@ async def mine(ctx):
 async def balance(ctx):
     await ctx.send("{}, your current balance is {:.2f} KhalilCoin™".format(
         ctx.author.mention, people[str(ctx.author.id)].balance))
+
+
+@bot.command()
+async def leaderboard(ctx):
+    leaders = sorted(people.items(), key = lambda person: float(person[1].balance), reverse=True)[:10]
+    leaders = zip(range(1,11), leaders)
+    leader_names = []
+    leaders_final = []
+    for leader in leaders:
+        leaders_final.append('#{}: {} - {} KhalilCoin™'.format(leader[0], (await bot.fetch_user(int(leader[1][0]))).name, leader[1][1].balance))
+
+    await ctx.send('\n'.join(leaders_final))
 
 
 @bot.command()
@@ -278,6 +291,41 @@ async def snof(ctx, text=None):
                 sleep(0.05)
 
     await vc.disconnect()
+
+
+# @bot.listen('on_message')
+# async def april_fools(message):
+#     if message.content == "$mine" or message.content == "$balance":
+#         return
+#     if message.author.id == 765800870528548866:
+#         return
+
+#     cost = len(message.content)*0.1 + len(message.attachments)*10
+    
+#     if (people[str(message.author.id)].balance < Decimal(cost)):
+#         await message.author.send(
+#             "Sending this message costs {} KhalilCoin™ and your current balance is {:.2f} KhalilCoin™.".
+#             format(cost, people[str(message.author.id)].balance))
+#         await message.delete()
+#     else:
+#         people[str(message.author.id)].balance -= Decimal(cost)
+
+# @bot.listen('on_message_edit')
+# async def april_fools(before, message):
+#     if message.content == "$mine" or message.content == "$balance":
+#         return
+#     if message.author.id == 765800870528548866:
+#         return
+
+#     cost = len(message.content)*0.2 + len(message.attachments)*10
+    
+#     if (people[str(message.author.id)].balance < Decimal(cost)):
+#         await message.author.send(
+#             "Sending this message costs {} KhalilCoin™ and your current balance is {:.2f} KhalilCoin™.".
+#             format(cost, people[str(message.author.id)].balance))
+#         await message.delete()
+#     else:
+#         people[str(message.author.id)].balance -= Decimal(cost) 
 
 
 bot.run(os.getenv('DISCORD_KEY'))
