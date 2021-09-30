@@ -31,7 +31,7 @@ class KBHelpCommand(commands.MinimalHelpCommand):
 bot = commands.Bot(command_prefix='$', help_command=KBHelpCommand())
 
 
-@bot.command(name='quit')
+@bot.command(name='kill', help="Kill the bot [owner only]")
 @commands.is_owner()
 async def quit(ctx):
     exit(0)
@@ -119,7 +119,7 @@ def command_cost(p, name):
     return commands.check(predicate)
 
 
-@bot.command()
+@bot.command(help="Boot up the KhalilCoin™ miner")
 async def mine(ctx):
 
     # buttons = [(6, "6️⃣"), (9, "9️⃣"), (1, "1️⃣"), (4, "4️⃣")]
@@ -156,13 +156,13 @@ async def mine(ctx):
                 content="Sorry {}, you didn't click the right button!".format(
                     ctx.author.mention))
 
-@bot.command()
+@bot.command(help="Check your KhalilCoin™ balance")
 async def balance(ctx):
     await ctx.send("{}, your current balance is {:.2f} KhalilCoin™".format(
         ctx.author.mention, people[str(ctx.author.id)].balance))
 
 
-@bot.command()
+@bot.command(help="See the richest users across all servers")
 async def leaderboard(ctx):
     leaders = sorted(people.items(), key = lambda person: float(person[1].balance), reverse=True)[:10]
     leaders = zip(range(1,11), leaders)
@@ -174,7 +174,7 @@ async def leaderboard(ctx):
     await ctx.send('\n'.join(leaders_final))
 
 
-@bot.command()
+@bot.command(help="Buy securities using KhalilCoin™")
 async def buy(ctx, shares: Decimal, ticker: str):
     ticker = ticker.upper()
     if (shares <= 0):
@@ -187,7 +187,7 @@ async def buy(ctx, shares: Decimal, ticker: str):
     except stockquotes.StockDoesNotExistError as e:
         await ctx.send("{}, that is not a valid ticker symbol".format(ctx.author.mention))
 
-@bot.command()
+@bot.command(help="Sell securities for KhalilCoin™")
 async def sell(ctx, shares: Decimal, ticker: str):
     ticker = ticker.upper()
     if (shares <= 0):
@@ -200,17 +200,17 @@ async def sell(ctx, shares: Decimal, ticker: str):
     except stockquotes.StockDoesNotExistError as e:
         await ctx.send("{}, that is not a valid ticker symbol".format(ctx.author.mention))
 
-@bot.command()
+@bot.command(help="See the contents of your securities portfolio")
 async def portfolio(ctx):
     await ctx.send("{}, your current portfolio is:\n{}".format(ctx.author.mention, '\n'.join(["{} {}".format(shares, ticker) for ticker, shares in people[str(ctx.author.id)].stocks.items()])))
 
-@bot.command()
+@bot.command(help="Check the price of a security")
 async def price(ctx, ticker: str):
     ticker = ticker.upper()
     stock = stockquotes.Stock(ticker)
     await ctx.send("{}, the price of {} is {} KhalilCoin™ per share".format(ctx.author.mention, ticker, stock.current_price))
 
-@bot.command()
+@bot.command(help="Print KhalilCoin™ [owner only]")
 @commands.is_owner()
 async def brrr(ctx, amount: int, recipient: discord.Member):
     await ctx.send("{}, your balance has been increased by {} KhalilCoin™!".
@@ -223,14 +223,14 @@ Stupid Commands
 """
 
 
-@bot.command()
+@bot.command(help="Send the 'boohoo' image")
 @command_cost(10, "boohoo")
 async def boohoo(ctx):
     with open('images/boohoocracker.jpg', 'br') as img:
         await ctx.send(file=discord.File(img))
 
 
-@bot.command()
+@bot.command(help="Send the Walter White gif. If provided, text will be added at the top")
 @command_cost(10, "walt")
 async def walt(ctx, *, text: commands.clean_content=None):
     if text is None:
@@ -240,7 +240,7 @@ async def walt(ctx, *, text: commands.clean_content=None):
         await ctx.send(file=discord.File(
             bb.add_text(text), filename="walt.gif"))
 
-@bot.command()
+@bot.command(help="Send the reversed Walter White gif. If provided, text will be added at the top")
 @command_cost(10, "tlaw")
 async def tlaw(ctx, *, text: commands.clean_content=None):
     if text is None:
@@ -251,21 +251,21 @@ async def tlaw(ctx, *, text: commands.clean_content=None):
             bb.add_text(text, img_file='images/breakingbad_reversed.gif'), filename="walt.gif"))
 
 
-@bot.command()
+@bot.command(help="Send the 'handshake' gif")
 @command_cost(10, "handshake")
 async def handshake(ctx):
     with open('images/me_and_my_best_friend.mp4', 'br') as img:
         await ctx.send(file=discord.File(img))
 
 
-@bot.command()
+@bot.command(help="Send the 'cracka' gif'")
 @command_cost(10, "cracka")
 async def cracka(ctx):
     with open('images/cracka.gif', 'br') as img:
         await ctx.send(file=discord.File(img))
 
 
-@bot.command(name='6914')
+@bot.command(name='6914', help="Join the most-populated voice channel and say '6914'. If provided, a combination of those numbers (max length of 10) will be said instead")
 @commands.guild_only()
 @command_cost(10, "6914")
 async def snof(ctx, text=None):
